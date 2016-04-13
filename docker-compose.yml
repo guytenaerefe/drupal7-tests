@@ -1,0 +1,31 @@
+version: "2"
+
+services:
+  web:
+    #image: drupal:7.43-apache
+    build: ./
+    expose:
+      - 80
+    ports:
+      - 8080:80
+    links:
+      - db
+    container_name: drupal7_ciccionl_web 
+    volumes:
+      - /var/www/git/drupal7.ciccio.nl:/var/www/html/
+  db:
+    image: percona:5.6
+    expose:
+      - 3306
+    ports:
+      - 33060:3306
+    container_name: drupal7_ciccionl_db
+    volumes:
+      - db_symfony:/var/lib/mysql
+      - db_symfony_log:/var/log/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: toor 
+      MYSQL_USER: root
+volumes:
+  db_symfony : {}
+  db_symfony_log: {}
