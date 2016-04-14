@@ -13,7 +13,6 @@ WORKDIR /var/www/html
 RUN wget http://files.drush.org/drush.phar #-O ~/drush.phar 
 RUN chmod +x drush.phar && mv drush.phar /usr/local/bin/drush
 
-
 # https://www.drupal.org/node/3060/release
 ENV DRUPAL_VERSION 7.43
 ENV DRUPAL_MD5 c6fb49bc88a6408a985afddac76b9f8b
