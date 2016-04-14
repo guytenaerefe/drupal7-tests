@@ -1,0 +1,38 @@
+# Box to use
+box:
+    id: francobolli/ubuntu14.04-php5.6-nvm
+    tag: latest
+deploy:
+    steps:
+        - add-to-known_hosts:
+            hostname: consolecowboy.net
+        - create-file:
+            name: write private key to file
+            filename: $PRIVATEKEY_PATH
+            content: $CICCIO_PRODUCTION_KEY_PRIVATE
+            overwrite: true
+            hide-from-log: false
+        - script:
+            name: export extra vars
+            code: |                
+                export DEPLOY_DIR=/var/www/drupal7.ciccio.nl
+        - create-file:
+            name: create exclude list
+            filename: exclude-list.txt
+            overwrite: true
+            hide-from-log: false
+            content: |-
+                .git
+                .gitattributes
+                .gitignore
+                wercker.yml
+                exclude-list.txt
+        - script:
+            name: deploy build code to server
+            code: |   
+                # Create deep remote folder, as this cannot be done with rsync
+                chmod 600 $PRIVATEKEY_PATH 
+                ssh -i $PRIVATEKEY_PATH zntrpy@consolecowboy.net mkdir -p $DEPLOY_DIR
+
+                # Rsync build code to remote folder
+                rsync -avz --exclude-from=exclude-list.txt -e "ssh -i  $PRIVATEKEY_PATH" ./ zntrpy@consolecowboy.net:${DEPLOY_DIR}
