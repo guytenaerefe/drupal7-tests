@@ -89,6 +89,5 @@ function firstmodule_watchdog(array $log_entry) {
         '@link' => strip_tags($log_entry['link']),
         '@message' => strip_tags($log_entry['message']),
     ));
-    dpm($log_entry['user']);
     drupal_mail('emaillog', 'entry', $to, $language, $params);
 }
