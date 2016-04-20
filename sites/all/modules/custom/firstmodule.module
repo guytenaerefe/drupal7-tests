@@ -1,0 +1,94 @@
+<?php
+/**
+ * @file
+ * Module file for block_example.
+ */
+
+/**
+ * Implements hook_menu().
+ *
+ * Provides a default page to explain what this module does.
+ */
+function firstmodule_menu() {
+    $items['custom/firstmodule'] = array(
+        'page callback' => 'firstmodule_page',
+        'access callback' => TRUE,
+        'title' => 'First Module',
+    );
+    return $items;
+}
+
+/**
+ * Simple page function to explain what the block example is about.
+ */
+function firstmodule_page() {
+    $page = array(
+        '#type' => 'markup',
+        '#markup' => t('This is the explanation page of my awesome module.'),
+    );
+    return $page;
+}
+
+/**
+ * Implements hook_boot()
+ * Log on init
+ */
+function firstmodule_enable() {
+    watchdog('firstmodule', 'firstmodule_enable() triggered!');
+}
+
+/**
+ * Implements hook_watchdog()
+ * @param array $log_entry
+ * Mail when watchdog is triggered
+ */
+function firstmodule_watchdog(array $log_entry) {
+//    dpm($log_entry);
+    global $base_url, $language;
+
+    $severity_list = array(
+        WATCHDOG_EMERGENCY => t('Emergency'),
+        WATCHDOG_ALERT => t('Alert'),
+        WATCHDOG_CRITICAL => t('Critical'),
+        WATCHDOG_ERROR => t('Error'),
+        WATCHDOG_WARNING => t('Warning'),
+        WATCHDOG_NOTICE => t('Notice'),
+        WATCHDOG_INFO => t('Info'),
+        WATCHDOG_DEBUG => t('Debug'),
+    );
+
+    $to = 'guytenaere.fe@gmail.com';
+    $params = array();
+    $params['subject'] = t('[@site_name] @severity_desc: Alert from your web site', array(
+        '@site_name' => variable_get('site_name', 'Drupal'),
+        '@severity_desc' => $severity_list[$log_entry['severity']],
+    ));
+
+    $params['message'] = "\nSite:         @base_url";
+    $params['message'] .= "\nSeverity:     (@severity) @severity_desc";
+    $params['message'] .= "\nTimestamp:    @timestamp";
+    $params['message'] .= "\nType:         @type";
+    $params['message'] .= "\nIP Address:   @ip";
+    $params['message'] .= "\nRequest URI:  @request_uri";
+    $params['message'] .= "\nReferrer URI: @referer_uri";
+    $params['message'] .= "\nUser:         (@uid) @name";
+    $params['message'] .= "\nLink:         @link";
+    $params['message'] .= "\nMessage:      \n\n@message";
+
+    $params['message'] = t($params['message'], array(
+        '@base_url' => $base_url,
+        '@severity' => $log_entry['severity'],
+        '@severity_desc' => $severity_list[$log_entry['severity']],
+        '@timestamp' => format_date($log_entry['timestamp']),
+        '@type' => $log_entry['type'],
+        '@ip' => $log_entry['ip'],
+        '@request_uri' => $log_entry['request_uri'],
+        '@referer_uri' => $log_entry['referer'],
+        '@uid' => $log_entry['uid'],
+        '@name' => $log_entry['user']->name,
+        '@link' => strip_tags($log_entry['link']),
+        '@message' => strip_tags($log_entry['message']),
+    ));
+    dpm($log_entry['user']);
+    drupal_mail('emaillog', 'entry', $to, $language, $params);
+}

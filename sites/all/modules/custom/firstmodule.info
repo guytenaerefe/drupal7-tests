@@ -1,0 +1,5 @@
+name = My First Awesome Module
+description = This module does really awesome stuff
+package = Custom
+core = 7.x
+files[] = firstmodule.test
