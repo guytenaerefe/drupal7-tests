@@ -37,6 +37,14 @@ function firstmodule_enable() {
     watchdog('firstmodule', 'firstmodule_enable() triggered!');
 }
 
+function firstmodule_help($path, $arg) {
+    switch ($path) {
+        // Main module help for the block module
+        case 'admin/help#firstmodule':
+            return '<p>' . t('You don\'t need help with this awesome module.') . '</p>';
+    }
+}
+
 /**
  * Implements hook_watchdog()
  * @param array $log_entry
@@ -57,7 +65,7 @@ function firstmodule_watchdog(array $log_entry) {
         WATCHDOG_DEBUG => t('Debug'),
     );
 
-    $to = 'guytenaere.fe@gmail.com';
+    $to = variable_get('site_mail', '');
     $params = array();
     $params['subject'] = t('[@site_name] @severity_desc: Alert from your web site', array(
         '@site_name' => variable_get('site_name', 'Drupal'),
