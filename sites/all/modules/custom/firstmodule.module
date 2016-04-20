@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Module file for my firstmodule.
+ * Module file for my first module.
  */
 
 /**
@@ -37,6 +37,12 @@ function firstmodule_enable() {
     watchdog('firstmodule', 'firstmodule_enable() triggered!');
 }
 
+/**
+ * Implements hook_help()
+ * @param $path
+ * @param $arg
+ * @return string
+ */
 function firstmodule_help($path, $arg) {
     switch ($path) {
         // Main module help for the block module
@@ -51,7 +57,6 @@ function firstmodule_help($path, $arg) {
  * Mail when watchdog is triggered
  */
 function firstmodule_watchdog(array $log_entry) {
-//    dpm($log_entry);
     global $base_url, $language;
 
     $severity_list = array(
