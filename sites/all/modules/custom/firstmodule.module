@@ -51,6 +51,21 @@ function firstmodule_help($path, $arg) {
     }
 }
 
+function firstmodule_theme() {
+    return array(
+        'firstmodule_text_form'  => array(
+            'render element' => 'form',
+            // In this one the rendering will be done by a template file
+            // (theming-example-text-form.tpl.php) instead of being rendered by a
+            // function. Note the use of dashes to separate words in place of
+            // underscores. The template file's extension is also left out so that
+            // it may be determined automatically depending on the template engine
+            // the site is using.
+            'template' => 'firstmodule-text-form',
+        ),
+    );
+}
+
 /**
  * Implements hook_watchdog()
  * @param array $log_entry
