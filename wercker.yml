@@ -2,6 +2,8 @@
 box:
     id: francobolli/ubuntu14.04-php5.6-nvm
     tag: latest
+build:
+    steps:
 deploy:
     steps:
         - add-to-known_hosts:
@@ -9,7 +11,7 @@ deploy:
         - create-file:
             name: write private key to file
             filename: $PRIVATEKEY_PATH
-            content: $CICCIO_PRODUCTION_KEY_PRIVATE
+            content: $D7_PRODUCTION_KEY_PRIVATE
             overwrite: true
             hide-from-log: false
         - script:
