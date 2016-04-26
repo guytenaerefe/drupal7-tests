@@ -20,10 +20,30 @@ function firstmodule_menu() {
         'title' => 'Yeah, an awesome form',
         'page callback'    => 'drupal_get_form',
         'page arguments'   => array('firstmodule_text_form'),
-        'access arguments' => array('access content'),
+        'access callback' => 'firstmodule_custom_access',
+        'access arguments' => array(
+//            'authenticated user',         // Test if our custom permission is set!
+            'access protected firstmodule'
+        ),
         'weight' => 1,
     );
     return $items;
+}
+
+/**
+ * Determine whether the current user has the role specified.
+ *
+ * @param string $role_name
+ *   The role required for access
+ *
+ * @return bool
+ *   True if the acting user has the role specified.
+ */
+function firstmodule_custom_access($role_name) {
+    dpm(user_access('access protected firstmodule'));
+    // Check if the user has the role OR the permission (Educational!)
+    $access_granted = in_array($role_name, $GLOBALS['user']->roles) || user_access('access protected firstmodule');
+    return $access_granted;
 }
 
 /**
@@ -81,6 +101,7 @@ function firstmodule_text_form($form, &$form_state) {
     $form['age'] = array(
         '#type' => 'textfield',
         '#title' => t('Age'),
+        '#access' => user_access('administer site configuration'),
         '#required' => FALSE,
     );
     $form['token_ciccio'] = array(
@@ -118,6 +139,20 @@ function firstmodule_text_form_submit($form, &$form_state) {
             )
         );
     drupal_set_message($msg);
+}
+
+/**
+ * Implements hook_permission().
+ *
+ * Provides a demonstration access string.
+ */
+function firstmodule_permission() {
+    return array(
+        'access protected firstmodule' => array(
+            'title' => t('Access the protected firstmodule formpage'),
+        ),
+    );
+
 }
 
 /**
