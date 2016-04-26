@@ -3,3 +3,4 @@ description = This module does really awesome stuff
 package = Custom
 core = 7.x
 files[] = firstmodule.test
+files[] = firstmodule-text-form.tpl.php
