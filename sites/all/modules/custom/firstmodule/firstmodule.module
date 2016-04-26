@@ -1,0 +1,159 @@
+<?php
+/**
+ * @file
+ * Module file for my first module.
+ */
+
+
+/**
+ * Implements hook_menu().
+ *
+ * Provides a default page to explain what this module does.
+ */
+function firstmodule_menu() {
+    $items['custom/firstmodule'] = array(
+        'page callback' => 'firstmodule_page',
+        'access callback' => TRUE,
+        'title' => 'First Module',
+    );
+    $items['custom/firstmodule/firstmodule_text_form'] = array(
+        'title' => 'Yeah, an awesome form',
+        'page callback'    => 'drupal_get_form',
+        'page arguments'   => array('firstmodule_text_form'),
+        'access arguments' => array('access content'),
+        'weight' => 1,
+    );
+    return $items;
+}
+
+/**
+ * Simple page function to explain what the block example is about.
+ */
+function firstmodule_page() {
+    $page = array(
+        '#type' => 'markup',
+        '#markup' => t('This is the explanation page of my awesome module.'),
+    );
+    return $page;
+}
+
+/**
+ * Implements hook_help()
+ * @param $path
+ * @param $arg
+ * @return string
+ */
+function firstmodule_help($path, $arg) {
+    switch ($path) {
+        // Main module help for the block module
+        case 'admin/help#firstmodule':
+            return '<p>' . t('You don\'t need help with this awesome module.') . '</p>';
+    }
+}
+
+function firstmodule_theme() {
+    return array(
+        'firstmodule_text_form'  => array(
+            'render element' => 'form',
+            // In this one the rendering will be done by a template file
+            // (firstmodule-text-form.tpl.php) instead of being rendered by a
+            // function. Note the use of dashes to separate words in place of
+            // underscores. The template file's extension is also left out so that
+            // it may be determined automatically depending on the template engine
+            // the site is using.
+            'template' => 'firstmodule-text-form',
+        ),
+    );
+}
+
+/**
+ * A simple form that displays a textfield and submit button.
+ *
+ * This form will be rendered by theme('form') (theme_form() by default)
+ * because we do not provide a theme function for it here.
+ */
+function firstmodule_text_form($form, &$form_state) {
+    $form['name'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Name'),
+        '#required' => TRUE,
+    );
+    $form['age'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Age'),
+        '#required' => FALSE,
+    );
+    $form['token_ciccio'] = array(
+        '#type' => 'token',
+        '#value' => drupal_random_key(),
+        '#required' => TRUE,
+    );
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => t('Go'),
+    );
+    return $form;
+}
+
+/**
+ * Submit handler for the text form.
+ *
+ * @param array $form
+ *   Form API form array.
+ * @param array $form_state
+ *   Form API form state array.
+ */
+function firstmodule_text_form_submit($form, &$form_state) {
+    $msg = empty($form_state['values']['age']) ?
+        t('You\'re %name and you did not enter your age.',
+            array(
+                '%name' => $form_state['values']['name']
+            )
+        )
+        :
+        t('You\'re %name and you\'re %age years old.',
+            array(
+                '%name' => $form_state['values']['name'],
+                '%age' => $form_state['values']['age']
+            )
+        );
+    drupal_set_message($msg);
+}
+
+/**
+ * Implements template_preprocess().
+ *
+ * We prepare variables for use inside the firstmodule-text-form.tpl.php
+ * template file.
+ *
+ * In this example, we create a couple new variables, 'text_form' and
+ * 'text_form_content', that clean up the form output.  Drupal will turn the
+ * array keys in the $variables array into variables for use in the template.
+ *
+ * So $variables['text_form'] becomes available as $text_form in the template.
+ *
+ * @see firstmodule-text-form.tpl.php
+ */
+function template_preprocess_firstmodule_text_form(&$variables) {
+    $variables['text_form_content'] = array();
+    $text_form_hidden = array();
+
+    // Each form element is rendered and saved as a key in $text_form_content, to
+    // give the themer the power to print each element independently in the
+    // template file.  Hidden form elements have no value in the theme, so they
+    // are grouped into a single element.
+    foreach (element_children($variables['form']) as $key) {
+        $type = $variables['form'][$key]['#type'];
+        if ($type == 'hidden' || $type == 'token') {
+            $text_form_hidden[] = drupal_render($variables['form'][$key]);
+        }
+        else {
+            $variables['text_form_content'][$key] = drupal_render($variables['form'][$key]);
+        }
+    }
+    $variables['text_form_content']['hidden'] = implode($text_form_hidden);
+
+    // The entire form is then saved in the $text_form variable, to make it easy
+    // for the themer to print the whole form.
+    $variables['text_form'] = implode($variables['text_form_content']);
+}
