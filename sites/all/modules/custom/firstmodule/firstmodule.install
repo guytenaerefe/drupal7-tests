@@ -1,0 +1,39 @@
+<?php
+
+/**
+ * @file
+ * Installation functions for firstmodule module.
+ * Note: It is advises not to avoid database interaction. This is for educational purposes
+ */
+
+/**
+ * Implementation of hook_schema().
+ */
+function firstmodule_schema() {
+    $schema = array();
+    $schema['firstmodule_data'] = array(
+        'description' => '(Untranslated) Keeps the Datas',
+        'fields' => array(
+            'id' => array(
+                'description' => 'ID',
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'default' => 0,
+            ),
+            'name' => array(
+                'description' => '(Untranslated) Name',
+                'type' => 'varchar',
+                'length' => 50,
+                'default' => '',
+            ),
+            'age' => array(
+                'description' => '(Untranslated) Age',
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'default' => 0,
+            ),
+        ),
+        'primary key' => array('id'),
+    );
+    return $schema;
+}

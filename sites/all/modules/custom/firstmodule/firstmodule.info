@@ -2,5 +2,7 @@ name = My First Awesome Module
 description = This module does really awesome stuff
 package = Custom
 core = 7.x
+
+files[] = firstmodule.module
 files[] = firstmodule.test
 files[] = firstmodule-text-form.tpl.php
