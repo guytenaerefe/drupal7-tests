@@ -4,7 +4,6 @@
  * Module file for my first module.
  */
 
-
 /**
  * Implements hook_menu().
  *
@@ -40,7 +39,7 @@ function firstmodule_menu() {
  *   True if the acting user has the role specified.
  */
 function firstmodule_custom_access($role_name) {
-    dpm(user_access('access protected firstmodule'));
+//    dpm(user_access('access protected firstmodule'));
     // Check if the user has the role OR the permission (Educational!)
     $access_granted = in_array($role_name, $GLOBALS['user']->roles) || user_access('access protected firstmodule');
     return $access_granted;
@@ -115,7 +114,6 @@ function firstmodule_text_form($form, &$form_state) {
     );
     return $form;
 }
-
 /**
  * Submit handler for the text form.
  *
