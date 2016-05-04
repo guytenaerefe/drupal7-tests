@@ -3,7 +3,7 @@
 /**
  * @file
  * Installation functions for firstmodule module.
- * Note: It is advises not to avoid database interaction. This is for educational purposes
+ * Note: It is advised to avoid database interaction. This is for educational purposes
  */
 
 /**
