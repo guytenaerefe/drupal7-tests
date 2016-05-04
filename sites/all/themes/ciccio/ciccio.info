@@ -1,0 +1,23 @@
+screenshot = screenshot.jpg
+name = Ciccio
+description = The Ciccio theme by Ciccio
+
+core = 7.x
+
+stylesheets[all][] = system.menus.css
+stylesheets[all][] = system.messages.css
+stylesheets[all][] = system.theme.css
+
+regions[header]         = Header
+regions[content]        = Content
+regions[footer]         = Footer
+regions[bottom]         = Page bottom
+
+; The page_top and page_bottom regions are hidden, which means they will not
+; show up on the blocks administration page. But they are required in order for
+; the html.tpl.php to work properly, so do not delete them.
+
+regions[page_top]       = Page top
+regions[page_bottom]    = Page bottom
+
+scripts[] = js/app.js
