@@ -1,0 +1,8 @@
+name = Site Preferences
+description = This module provides a custom configuration page for my awesome site preferences.
+core = 7.x
+version = 7.x-1.x
+package = site_preferences
+configure = admin/config/content/site-preferences
+
+files[] = site_preferences.module

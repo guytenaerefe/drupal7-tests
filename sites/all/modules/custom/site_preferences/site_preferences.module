@@ -1,0 +1,117 @@
+<?php
+/**
+ * @file
+ * This module provides a custom configuration page for site preferences.
+ * This module is created for admins to easily edit custom settings for the site.
+ */
+
+/**
+* Implements hook_permission().
+*/
+function site_preferences_permission()
+{
+    return array(
+        'administer site_preferences' => array(
+            'title' => t('Administer site Preferences.'),
+            'description' => t('Perform administration tasks for the site Preferences module.'),
+        )
+    );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function site_preferences_menu()
+{
+    # Creates menu items listed below.
+    $items['admin/config/content/site-preferences'] = array(
+        'title' => 'Site Preferences',
+        'description' => 'A custom configuration page for Site preferences.',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('site_preferences_form'),
+        'access arguments' => array('administer site_preferences'),
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    return $items;
+}
+
+/**
+ * Page callback: site Preferences Form.
+ *
+ * @see site_preferences_form().
+ */
+function site_preferences_form($form, &$form_state)
+{
+    # Social Media
+    $form['general-tab']['social_media'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Social media'),
+        '#collapsible' => TRUE,
+        '#collapsed' => FALSE,
+        '#group' => 'general-tab',
+        '#weight' => '1',
+    );
+
+    # Social Share
+    $form['general-tab']['social_media']['site_social_media'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Enable Social Share'),
+        '#default_value' => variable_get('site_social_media', ''),
+        '#description' => t('Check to enable <em>Social media</em> channels. If you have one or more channels enabled below, you should enable this.'),
+    );
+
+    # Social Share Twitter
+    $form['general-tab']['social_media']['site_social_media_twitter'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Enable Social Share Twitter'),
+        '#default_value' => variable_get('site_social_media_twitter', ''),
+        '#description' => t('Check to enable <em>Twitter</em> in the <em>social share</em> block.'),
+    );
+
+    # Social Share Facebook
+    $form['general-tab']['social_media']['site_social_media_facebook'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Enable Social Share Facebook'),
+        '#default_value' => variable_get('site_social_media_facebook', ''),
+        '#description' => t('Check to enable <em>Facebook</em> in the <em>social share</em> block.'),
+    );
+
+    # Social Share Email
+    $form['general-tab']['social_media']['site_social_media_email'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Enable Social Share Email'),
+        '#default_value' => variable_get('site_social_media_email', ''),
+        '#description' => t('Check to enable <em>Email</em> in the <em>social share</em> block.'),
+    );
+
+    # Social Share Pinterest
+    $form['general-tab']['social_media']['site_social_media_pinterest'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Enable Social Share Pinterest'),
+        '#default_value' => variable_get('site_social_media_pinterest', ''),
+        '#description' => t('Check to enable <em>Pinterest</em> in the <em>social share</em> block.'),
+    );
+
+    $form['general-tab']['social_media']['site_share_image_type'] = array(
+        '#type' => 'select',
+        '#required' => TRUE,
+        '#title' => t('Share image'),
+        '#default_value' => variable_get('site_share_image_type'),
+        '#empty_option' => t('- Select -'),
+        '#options' => array(
+            'cool' => 'Cool',
+            'profi' => 'Professional'
+        ),
+    );
+
+    # End vertical tabs
+    $form['#submit'][] = 'site_preferences_main_settings_fields_submit';
+
+    return system_settings_form($form);
+}
+
+
+function site_preferences_main_settings_fields_submit($form, $form_state) {
+
+}
