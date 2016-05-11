@@ -1,4 +1,4 @@
 <?php
 function ciccio_system_powered_by() {
-    return '<span>' . t('Powarrrred by me') . '</span>';
+    return '<span>' . t('Powered by drupal, bootstrap3 and more cool stuff') . '</span>';
 }
