@@ -73,6 +73,8 @@ function menu_example_menu() {
   $items['examples/menu_example_alternate_menu'] = array(
     'title' => 'Example',
 
+    'weight' => 9999,
+
     // Machine name of the menu in which the link should appear.
     'menu_name' => 'main-menu',
 
