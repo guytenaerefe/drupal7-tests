@@ -71,7 +71,7 @@ function menu_example_menu() {
   // Show a menu link in a menu other than the default "Navigation" menu.
   // The menu must already exist.
   $items['examples/menu_example_alternate_menu'] = array(
-    'title' => 'Menu Example: Menu in alternate menu',
+    'title' => 'Example',
 
     // Machine name of the menu in which the link should appear.
     'menu_name' => 'main-menu',
