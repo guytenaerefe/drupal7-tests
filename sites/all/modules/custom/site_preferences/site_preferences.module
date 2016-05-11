@@ -23,6 +23,17 @@ function site_preferences_permission()
  */
 function site_preferences_menu()
 {
+    $items['examples/links'] = array(
+        'title' => 'Links',
+
+        // Machine name of the menu in which the link should appear.
+        'menu_name' => 'main-menu',
+
+        'page callback' => '_links',
+        'page arguments' => array(t('Show me some links')),
+        'access callback' => TRUE,
+    );
+
     # Creates menu items listed below.
     $items['admin/config/content/site-preferences'] = array(
         'title' => 'Site Preferences',
