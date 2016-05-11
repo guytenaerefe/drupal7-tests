@@ -1,30 +1,7 @@
 screenshot = screenshot.jpg
 name = Ciccio
 description = The Ciccio theme by Ciccio
-
+base theme = bootstrap
 core = 7.x
-
-stylesheets[all][] = system.menus.css
-stylesheets[all][] = system.messages.css
-stylesheets[all][] = system.theme.css
-
-;regions[header]         = Header
-;regions[content]        = Content
-;regions[footer]         = Footer
-;regions[bottom]         = Page bottom
-regions[sidebar_first]  = Left sidebar
-regions[sidebar_second] = Right sidebar
-regions[content] = Content
-regions[header] = Header
-regions[footer] = Footer
-regions[highlighted] = Highlighted
-regions[help] = Help
-
-; The page_top and page_bottom regions are hidden, which means they will not
-; show up on the blocks administration page. But they are required in order for
-; the html.tpl.php to work properly, so do not delete them.
-
-regions[page_top]       = Page top
-regions[page_bottom]    = Page bottom
 
 scripts[] = js/app.js
